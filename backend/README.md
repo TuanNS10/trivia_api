@@ -84,7 +84,7 @@ Here is a short table about which ressources exist and which method you can use 
        Endpoints    |  GET |  POST |  DELETE | 
                     |------|-------|---------|
       /questions    |  [x] |  [x]  |   [x]   |         
-      /categories   |  [x] |  [x]  |   [x]   |           
+      /categories   |  [x] |       |         |           
       /quizzes      |      |  [x]  |         | 
 
 `GET '/questions?page=${integer}'`
