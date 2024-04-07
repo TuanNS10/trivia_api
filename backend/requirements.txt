@@ -16,3 +16,4 @@ six==1.16.0
 SQLAlchemy==1.4.18
 Werkzeug==2.0.1
 requests==2.31.0
+python-dotenv==1.0.1

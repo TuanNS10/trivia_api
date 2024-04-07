@@ -1,16 +1,20 @@
+from dotenv import load_dotenv
+import os
 import requests
 import unittest
 from flask_sqlalchemy import SQLAlchemy
 
-from flaskr import create_app
+from app import create_app
 
+load_dotenv()
+database_path = os.getenv("DATABASE_TEST_URL")
 
 class TriviaTestCase(unittest.TestCase):
     """This class represents the trivia test case"""
 
     def setUp(self):
         """Define test variables and initialize app."""
-        self.database_path = 'postgresql://postgres:password@localhost:5432/trivia_test'
+        self.database_path = database_path
         
         self.app = create_app({
             "SQLALCHEMY_DATABASE_URI": self.database_path
