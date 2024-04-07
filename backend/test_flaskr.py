@@ -4,7 +4,7 @@ import requests
 import unittest
 from flask_sqlalchemy import SQLAlchemy
 
-from app import create_app
+from flaskr import create_app
 
 load_dotenv()
 database_path = os.getenv("DATABASE_TEST_URL")

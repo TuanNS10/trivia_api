@@ -275,7 +275,7 @@ def create_app(test_config=None):
                 questions_raw = (Question.query.all())    
         else:
             if current_category:
-            # if a list with previous questions is given and also a category, query for questions which are not contained in previous question and are in given category
+                # if a list with previous questions is given and also a category, query for questions which are not contained in previous question and are in given category
                 questions_raw = (Question.query
                 .filter(Question.category == str(current_category['id']))
                 .filter(Question.id.notin_(previous_questions))
