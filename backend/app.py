@@ -258,37 +258,29 @@ def create_app(test_config=None):
     def start_trivia():
         body = request.get_json()
 
-        if not body:
+        if not body or 'previous_questions' not in body:
             abort(400, {'message': 'Please provide a JSON body with previous question Ids and optional category.'})
             
-        previous_questions = body.get('previous_questions', None)
+        previous_questions = body.get('previous_questions', [])
         current_category = body.get('quiz_category', None)
 
-        if not previous_questions:
-            if current_category:
-                # if no list with previous questions is given, but a category , just gut any question from this category.
-                questions_raw = (Question.query
-                .filter(Question.category == str(current_category['id']))
-                .all())
-            else:
-                # if no list with previous questions is given and also no category , just gut any question.
-                questions_raw = (Question.query.all())    
+        # Filtering questions based on category and previous questions
+        if current_category:
+            questions_query = Question.query.filter_by(category=str(current_category['id']))
         else:
-            if current_category:
-                # if a list with previous questions is given and also a category, query for questions which are not contained in previous question and are in given category
-                questions_raw = (Question.query
-                .filter(Question.category == str(current_category['id']))
-                .filter(Question.id.notin_(previous_questions))
-                .all())
-            else:
-                # if a list with previous questions is given but no category, query for questions which are not contained in previous question.
-                questions_raw = (Question.query
-                .filter(Question.id.notin_(previous_questions))
-                .all())
-        
-        questions_formatted = [question.format() for question in questions_raw]
-        random_question = questions_formatted[random.randint(0, len(questions_formatted))]
-        
+            questions_query = Question.query
+
+        if previous_questions:
+            questions_query = questions_query.filter(Question.id.notin_(previous_questions))
+
+        questions_raw = questions_query.all()
+
+        # Selecting a random question from filtered questions
+        if questions_raw:
+            random_question = random.choice(questions_raw).format()
+        else:
+            random_question = None
+
         return jsonify({
             'success': True,
             'question': random_question

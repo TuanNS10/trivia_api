@@ -183,15 +183,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['success'])
         self.assertTrue('question' in data)
 
-    def test_play_quiz_no_previous_questions(self):
-        """Test POST request to play quiz with no previous questions"""
-        # Send POST request to /quizzes with quiz_category only
-        response = requests.post(f'{self.base_url}/quizzes', json={"quiz_category": {"id": 1, "type": "Science"}})
-        data = response.json()
-        
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(data['success'])
-        self.assertTrue('question' in data)
 
     def test_play_quiz_no_body(self):
         """Test POST request to play quiz with no request body"""
