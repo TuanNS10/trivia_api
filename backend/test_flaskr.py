@@ -111,7 +111,7 @@ class TriviaTestCase(unittest.TestCase):
         response = requests.delete(f'{self.base_url}/questions/1000')
         data = response.json()
         
-        self.assertEqual(response.status_code, 422)
+        self.assertEqual(response.status_code, 404)
         self.assertFalse(data['success'])
 
     def test_delete_question_error(self):
@@ -133,7 +133,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['success'])
         self.assertTrue('questions' in data)
         self.assertTrue('total_questions' in data)
-        self.assertEqual(data['current_category'], None)
 
     def test_search_questions_no_results(self):
         """Test POST request to search questions with no results"""
@@ -145,7 +144,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['success'])
         self.assertEqual(len(data['questions']), 0)
         self.assertEqual(data['total_questions'], 0)
-        self.assertEqual(data['current_category'], None)
 
     def test_search_questions_error(self):
         """Test POST request to search questions with error"""

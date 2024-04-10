@@ -120,7 +120,7 @@ Here is a short table about which ressources exist and which method you can use 
 
 ```json
 {
-  "currentCategory": "History",
+  "currentCategory": "Art",
   "questions": [
     {
       "answer": "Escher",
@@ -172,7 +172,7 @@ Here is a short table about which ressources exist and which method you can use 
 
 ```json
 {
-  "searchTerm": "this is the term the user is looking for"
+  "searchTerm": "This is the search term the user is looking for"
 }
 ```
 
@@ -189,8 +189,7 @@ Here is a short table about which ressources exist and which method you can use 
       "category": 4
     }
   ],
-  "totalQuestions": 5,
-  "currentCategory": "Art"
+  "totalQuestions": 5
 }
 ```
 
@@ -201,7 +200,7 @@ Here is a short table about which ressources exist and which method you can use 
 ```json
 {
   "previous_questions": [10, 12, 8],
-  "quiz_category": {"id": 1, "type": "Science"}
+  "quiz_category": {"id": 2, "type": "Art"}
 }
 ```
 
