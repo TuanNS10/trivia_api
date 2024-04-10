@@ -80,31 +80,13 @@ you need to use the default domain on which the flask server is running.
 
 Here is a short table about which ressources exist and which method you can use on them.
 
-                          Allowed Methods
-       Endpoints    |  GET |  POST |  DELETE | 
-                    |------|-------|---------|
-      /questions    |  [x] |  [x]  |   [x]   |         
-      /categories   |  [x] |       |         |           
-      /quizzes      |      |  [x]  |         | 
+`GET '/questions?page=${int}'`
 
-`GET '/questions?page=${integer}'`
-
-- Fetches a paginated set of questions, a total number of questions, all categories and current category string.
 - Request Arguments: `page` - integer
-- Returns: An object with 10 paginated questions, total questions, object including all categories, and current category string
+- Returns: An object with 10 paginated questions, total questions, all categories, and current category
 
 ```json
 {
-  "questions": [
-    {
-      "id": 1,
-      "question": "This is a question",
-      "answer": "This is an answer",
-      "difficulty": 5,
-      "category": 2
-    }
-  ],
-  "totalQuestions": 100,
   "categories": {
     "1": "Science",
     "2": "Art",
@@ -113,7 +95,18 @@ Here is a short table about which ressources exist and which method you can use 
     "5": "Entertainment",
     "6": "Sports"
   },
-  "currentCategory": "History"
+  "currentCategory": "Science",
+  "questions": [
+    {
+      "answer": "Apollo 13",
+      "category": "5",
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+  ],
+  "success": true,
+  "totalQuestions": 30
 }
 ```
 
@@ -121,23 +114,24 @@ Here is a short table about which ressources exist and which method you can use 
 
 `GET '/categories/${id}/questions'`
 
-- Fetches questions for a cateogry specified by id request argument
+- Fetches questions for a cateogry specified by id 
 - Request Arguments: `id` - integer
-- Returns: An object with questions for the specified category, total questions, and current category string
+- Returns: An object with questions for the specified category, total questions, and current category
 
 ```json
 {
+  "currentCategory": "History",
   "questions": [
     {
-      "id": 1,
-      "question": "This is a question",
-      "answer": "This is an answer",
-      "difficulty": 5,
-      "category": 4
-    }
+      "answer": "Escher",
+      "category": "2",
+      "difficulty": 1,
+      "id": 16,
+      "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
+    },
   ],
-  "totalQuestions": 100,
-  "currentCategory": "History"
+  "success": true,
+  "totalQuestions": 40
 }
 ```
 
@@ -147,7 +141,7 @@ Here is a short table about which ressources exist and which method you can use 
 
 - Deletes a specified question using the id of the question
 - Request Arguments: `id` - integer
-- Returns: Does not need to return anything besides the appropriate HTTP status code. Optionally can return the id of the question. If you are able to modify the frontend, you can have it remove the question using the id instead of refetching the questions.
+- Returns: the appropriate HTTP status code.
 
 ---
 
@@ -155,19 +149,19 @@ Here is a short table about which ressources exist and which method you can use 
 
 `POST '/questions'`
 
-- Sends a post request in order to add a new question
+- Sends a post request to add a new question
 - Request Body:
 
 ```json
 {
-  "question": "Heres a new question string",
-  "answer": "Heres a new answer string",
-  "difficulty": 1,
+  "question": "New questions",
+  "answer": "New answer",
+  "difficulty": 4,
   "category": 3
 }
 ```
 
-- Returns: Does not return any new data
+- Returns: Question id
 
 ---
 
@@ -189,14 +183,14 @@ Here is a short table about which ressources exist and which method you can use 
   "questions": [
     {
       "id": 1,
-      "question": "This is a question",
-      "answer": "This is an answer",
-      "difficulty": 5,
-      "category": 5
+      "question": "Here is a question",
+      "answer": "Here is an answer",
+      "difficulty": 3,
+      "category": 4
     }
   ],
-  "totalQuestions": 100,
-  "currentCategory": "Entertainment"
+  "totalQuestions": 5,
+  "currentCategory": "Art"
 }
 ```
 
@@ -206,12 +200,12 @@ Here is a short table about which ressources exist and which method you can use 
 
 ```json
 {
-  "previous_questions": [10, 12],
+  "previous_questions": [10, 12, 8],
   "quiz_category": {"id": 1, "type": "Science"}
 }
 ```
 
-- Returns: questions
+- Returns: Random questions
 
 ```json
 {
@@ -238,4 +232,15 @@ dropdb trivia_test
 createdb trivia_test
 psql trivia_test < trivia.psql
 python test_flaskr.py
+
+Output: (.venv) PS D:\udacity\fullstack_web_dev\trivia_API\backend> py test_flaskr.py
+D:\udacity\fullstack_web_dev\trivia_API\backend\.venv\lib\site-packages\flask_cors\core.py:322: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working       
+  and isinstance(obj, collections.Iterable)):
+D:\udacity\fullstack_web_dev\trivia_API\backend\.venv\lib\site-packages\werkzeug\local.py:206: DeprecationWarning: '__ident_func__' is deprecated and will be removed in Werkzeug 2.1. It should not be used in Python 3.7+.
+  return self._local.__ident_func__
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 30.990s
+
+OK
 ```
