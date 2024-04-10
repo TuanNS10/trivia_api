@@ -64,6 +64,11 @@ class QuestionView extends Component {
   }
 
   getByCategory = (id) => {
+    // Check if id is valid
+    if (id <= 0) {
+      alert('Invalid category ID');
+      return;
+    }
     $.ajax({
       url: `/categories/${id}/questions`, //TODO: update request URL
       type: 'GET',
@@ -84,7 +89,7 @@ class QuestionView extends Component {
 
   submitSearch = (searchTerm) => {
     $.ajax({
-      url: `/questions`, //TODO: update request URL
+      url: `/questions/search`, //TODO: update request URL
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json',
@@ -142,7 +147,7 @@ class QuestionView extends Component {
               <li
                 key={id}
                 onClick={() => {
-                  this.getByCategory(id);
+                  this.getByCategory(Number(id) + 1);
                 }}
               >
                 {this.state.categories[id]}
