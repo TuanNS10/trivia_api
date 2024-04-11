@@ -259,19 +259,21 @@ def create_app(test_config=None):
 
         if not body or 'previous_questions' not in body:
             abort(400, {'message': 'Please provide a JSON body with previous question Ids and optional category.'})
-                
+                    
         previous_questions = body.get('previous_questions', [])
         current_category = body.get('quiz_category', None)
 
         # Filtering questions based on category and previous questions
-        questions_query = Question.query.filter_by(category=str(current_category['id'])) if current_category else None
+        if current_category and current_category['id'] != 0:
+            questions_query = Question.query.filter_by(category=str(current_category['id']))
+        else:
+            questions_query = Question.query
 
         if previous_questions:
             questions_query = questions_query.filter(Question.id.notin_(previous_questions))
 
         questions_raw = questions_query.all()
 
-        # Selecting a random question from filtered questions
         random_question = random.choice(questions_raw).format() if questions_raw else None
 
         return jsonify({
