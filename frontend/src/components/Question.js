@@ -9,12 +9,16 @@ class Question extends Component {
     };
   }
 
+
   flipVisibility() {
     this.setState({ visibleAnswer: !this.state.visibleAnswer });
   }
 
   render() {
     const { question, answer, category, difficulty } = this.props;
+    const { categories } = this.state; 
+    console.log('Category:', category);
+    console.log('Category value:', categories && categories[category]);
     return (
       <div className='Question-holder'>
         <div className='Question'>{question}</div>

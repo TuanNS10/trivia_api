@@ -18,6 +18,22 @@ class QuestionView extends Component {
 
   componentDidMount() {
     this.getQuestions();
+    this.getCategories();
+  }
+
+  getCategories = () => {
+    $.ajax({
+      url: `/categories`,
+      type: 'GET',
+      success: (result) => {
+        this.setState({ categories: result.categories });
+        return;
+      },
+      error: (error) => {
+        alert('Unable to load categories. Please try your request again');
+        return;
+      },
+    });
   }
 
   getQuestions = () => {
@@ -64,11 +80,6 @@ class QuestionView extends Component {
   }
 
   getByCategory = (id) => {
-    // Check if id is valid
-    if (id <= 0) {
-      alert('Invalid category ID');
-      return;
-    }
     $.ajax({
       url: `/categories/${id}/questions`, //TODO: update request URL
       type: 'GET',
@@ -132,6 +143,7 @@ class QuestionView extends Component {
   };
 
   render() {
+    console.log('Categories:', this.state.categories);
     return (
       <div className='question-view'>
         <div className='categories-list'>
@@ -147,7 +159,7 @@ class QuestionView extends Component {
               <li
                 key={id}
                 onClick={() => {
-                  this.getByCategory(Number(id) + 1);
+                  this.getByCategory(id); 
                 }}
               >
                 {this.state.categories[id]}
